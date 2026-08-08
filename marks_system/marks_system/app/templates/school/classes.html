@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Classes{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Classes</h2>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Teacher</th>
+                            <th>Students</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in classes %}
+                        <tr>
+                            <td><strong>{{ c.full_name }}</strong></td>
+                            <td>{{ c.class_teacher_name or '-' }}</td>
+                            <td>{{ c.students.count() }}</td>
+                            <td>
+                                <a href="{{ url_for('school.class_students', class_id=c.id) }}" class="btn btn-sm btn-outline-secondary">Students</a>
+                                <a href="{{ url_for('school.marks_entry', class_id=c.id) }}" class="btn btn-sm btn-outline-primary">Marks</a>
+                                <a href="{{ url_for('school.class_report', class_id=c.id) }}" class="btn btn-sm btn-outline-success">Report</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="4" class="text-center text-muted">No classes. Add one on the right.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Add Class</div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('school.add_class') }}">
+                    <div class="mb-2">
+                        <label class="form-label">Grade</label>
+                        <select name="grade_id" class="form-select" required>
+                            {% for g in grades %}
+                            <option value="{{ g.id }}">{{ g.name }} ({{ g.name_sinhala }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Section (A, B, C...)</label>
+                        <input type="text" name="section" class="form-control" maxlength="2" required placeholder="A">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Class Teacher</label>
+                        <input type="text" name="class_teacher_name" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Add Class</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

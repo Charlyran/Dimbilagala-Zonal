@@ -1,0 +1,6 @@
+@echo off
+echo Installing dependencies...
+pip install Flask Flask-SQLAlchemy Flask-Login Werkzeug
+echo Starting server...
+python run.py
+pause

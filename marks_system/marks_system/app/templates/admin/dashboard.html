@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - Zone{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Zonal Education Admin Dashboard</h2>
+<p class="text-muted">Polonnaruwa Zone (PL) – Term Test Marks Management</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Schools</h5>
+                <p class="display-6">{{ schools_count }}</p>
+                <a href="{{ url_for('admin.schools') }}" class="text-white">Manage →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h5 class="card-title">School Users</h5>
+                <p class="display-6">{{ users_count }}</p>
+                <a href="{{ url_for('admin.users') }}" class="text-white">Manage →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Active Terms</h5>
+                <p class="display-6">{{ terms|selectattr('is_active')|list|length if terms else 0 }}</p>
+                <a href="{{ url_for('admin.terms') }}" class="text-white">Manage →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Zone Results</h5>
+                <p class="mb-2">Overall analysis</p>
+                <a href="{{ url_for('admin.zone_overview') }}" class="btn btn-dark btn-sm">View Zone Overview →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-primary">
+    <strong>Quick Start:</strong> All 39 schools are pre-loaded. Default school password is <code>school123</code>. 
+    Go to <a href="{{ url_for('admin.zone_overview') }}">Zone Overview</a> to see overall progress and rankings across the zone.
+</div>
+
+<div class="card">
+    <div class="card-header">Recent Terms</div>
+    <ul class="list-group list-group-flush">
+        {% for t in terms[:5] %}
+        <li class="list-group-item d-flex justify-content-between">
+            {{ t.name or (t.year ~ ' Term ' ~ t.term_number) }}
+            {% if t.is_active %}<span class="badge bg-success">Active</span>{% endif %}
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">No terms yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{{ cls.full_name }} Students{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('school.classes') }}">Classes</a></li>
+        <li class="breadcrumb-item active">{{ cls.full_name }}</li>
+    </ol>
+</nav>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>{{ cls.full_name }} - Students</h2>
+    <div>
+        <a href="{{ url_for('school.marks_entry', class_id=cls.id) }}" class="btn btn-primary">Enter Marks</a>
+        <a href="{{ url_for('school.class_report', class_id=cls.id) }}" class="btn btn-success">Report</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Admission No</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ s.admission_no or '-' }}</td>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.gender or '-' }}</td>
+                            <td>{{ s.date_of_birth or '-' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="5" class="text-center text-muted">No students yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Add Student</div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('school.add_student', class_id=cls.id) }}">
+                    <div class="mb-2">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Admission No</label>
+                        <input type="text" name="admission_no" class="form-control">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-select">
+                            <option value="">--</option>
+                            <option value="Male">Male / පුරුෂ</option>
+                            <option value="Female">Female / ස්ත්‍රී</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" name="date_of_birth" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Add Student</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
