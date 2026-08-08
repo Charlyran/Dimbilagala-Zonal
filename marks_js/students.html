@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Students</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-primary no-print">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="school.html">← Back</a>
+      <a class="nav-link text-white" href="#" onclick="logout()">Logout</a>
+    </div>
+  </nav>
+  <div class="container-fluid py-4">
+    <h2 id="title">Students</h2>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead><tr><th>#</th><th>Adm.No</th><th>Name</th><th>Gender</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">Add Student</div>
+          <div class="card-body">
+            <form id="form">
+              <div class="mb-2"><label class="form-label">Name *</label><input id="name" class="form-control" required></div>
+              <div class="mb-2"><label class="form-label">Admission No</label><input id="adm" class="form-control"></div>
+              <div class="mb-2"><label class="form-label">Gender</label>
+                <select id="gender" class="form-select"><option value="">–</option><option>Male</option><option>Female</option></select>
+              </div>
+              <button class="btn btn-primary w-100">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    initSupabase();
+    const classId = new URLSearchParams(location.search).get('class_id');
+    let schoolId = null;
+
+    async function load() {
+      const { data } = await supabase.from('students').select('*').eq('class_id', classId).eq('is_active', true).order('name');
+      document.getElementById('tbody').innerHTML = (data || []).map((s, i) =>
+        `<tr><td>${i+1}</td><td>${s.admission_no||''}</td><td>${s.name}</td><td>${s.gender||''}</td></tr>`
+      ).join('') || '<tr><td colspan="4" class="text-muted text-center">No students</td></tr>';
+    }
+
+    (async () => {
+      const profile = await requireAuth('school');
+      if (!profile) return;
+      schoolId = profile.school_id;
+      const { data: cls } = await supabase.from('classes').select('*').eq('id', classId).single();
+      document.getElementById('title').textContent = `${cls.grade_number} - ${cls.section} Students`;
+      await load();
+
+      document.getElementById('form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const { error } = await supabase.from('students').insert({
+          school_id: schoolId, class_id: parseInt(classId),
+          name: document.getElementById('name').value.trim(),
+          admission_no: document.getElementById('adm').value.trim(),
+          gender: document.getElementById('gender').value
+        });
+        if (error) { alert(error.message); return; }
+        e.target.reset();
+        await load();
+      });
+    })();
+  </script>
+</body>
+</html>
