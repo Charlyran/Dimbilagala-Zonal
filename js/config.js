@@ -1,10 +1,10 @@
 // ========== SUPABASE CONFIG ==========
 // Paste your keys from Supabase → Project Settings → API
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://xtzimhjzjxcovogxncbf.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_23OkEdsWDacweEitLTOCcw_lA_08NBZ';
 
 // Demo mode = true when keys not set (preview without database)
-const DEMO_MODE = (SUPABASE_URL === 'YOUR_SUPABASE_URL');
+const DEMO_MODE = (SUPABASE_URL === 'https://xtzimhjzjxcovogxncbf.supabase.coL');
 
 let supabase = null;
 
