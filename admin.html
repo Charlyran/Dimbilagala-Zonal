@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin – Zone Results</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><i class="bi bi-journal-check"></i> Marks System</a>
+      <div class="navbar-nav ms-auto">
+        <span class="nav-link text-white-50">admin (demo)</span>
+        <a class="nav-link" href="index.html">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid py-4">
+    <h2 class="mb-1"><i class="bi bi-geo-alt"></i> Polonnaruwa Zone – Overall Results</h2>
+    <p class="text-muted mb-4">II වාර පරීක්ෂණය - 2026 | 39 Schools <span class="badge bg-warning text-dark">Demo</span></p>
+
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3"><div class="stat-card bg-primary"><h6>Total Schools</h6><div class="num">39</div></div></div>
+      <div class="col-6 col-md-3"><div class="stat-card bg-info"><h6>Total Students</h6><div class="num">0</div></div></div>
+      <div class="col-6 col-md-3"><div class="stat-card bg-success"><h6>With Marks</h6><div class="num">0</div></div></div>
+      <div class="col-6 col-md-3"><div class="stat-card bg-warning text-dark"><h6>Progress</h6><div class="num">0%</div></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><strong>All Schools – Status & Average</strong></div>
+      <div class="table-responsive">
+        <table class="table table-hover table-sm mb-0">
+          <thead class="table-light">
+            <tr><th>#</th><th>School</th><th class="text-center">Students</th><th class="text-center">With Marks</th><th class="text-center">Progress</th><th class="text-center">Avg</th></tr>
+          </thead>
+          <tbody id="schoolTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    const schools = [
+      "WILAYAYA MADHYA MAHA VIDYALAYA","SIRIPURA MADHYA MAHA VIDYALAYA","WELIKANDA MAHA VIDYALAYA",
+      "WEHERAGALA MAHA VIDYALAYA","MEDAGAMA MAHA VIDYALAYA","SEVANAPITIYA MAHA VIDYALAYA",
+      "NIKAWATHALANDA MAHA VIDYALAYA","BOGASWEWA MAHA VIDYALAYA","LEELARATHNA WIJESINGHA MAHA VIDYALAYA",
+      "ELLEWEWA MAHA VIDYALAYA","ASELAPURA MAHA VIDYALAYA","NUWARAGALA MAHA VIDYALAYA",
+      "ALAWAKUMBURA MAHA VIDYALAYA","NELUMWEWA MAHA VIDYALAYA","MADURU OYA MAHA VIDYALAYA",
+      "MANAMPITIYA SINHALA MAHA VIDYALAYA","KASHYAPA MAHA VIDYALAYA","VIJAYA PARAKKRAMA KANISHTA VIDYALAYA",
+      "DAMMINNA MAHA VIDYALAYA","SINHAPURA KANISTA VIDYALAYA","PIHITIWEWA MAHA VIDYALAYA",
+      "KALINGAWILA KANISHTA VIDYALAYA","KADAWATHAMADUWA DHARMAPALA KANISHTA VIDYALAYA","BANDANAGALA KANISHTA VIDYALAYA",
+      "KANDEGAMA KANISHTA VIDYALAYA","PAHALA YAKKURE KANISHTA VIDYALAYA","PELATIYAWEWA SECONDARY SCHOOL",
+      "KEKULUWELA MAHA VIDYALAYA","NAWAPALLEGAMA VIDYALAYA","NAWAGINIDAMANA MAHA VIDYALAYA",
+      "IHALA YAKKURE KANISHTA VIDYALAYA","MAGULDAMANA MAHA VIDYALAYA","KATUWANWILA MUSLIM KANISHTA VIDYALAYA",
+      "SENAPURA AL AMEEN MUSLIM MAHA VIDYALAYA","MANAMPITIYA TAMIL MAHA VIDYALAYA","HEWANPITIYA TAMIL MAHA VIDYALAYA",
+      "MUTUGALA TAMIL VIDYALAYA","THRIKONAMADUWA MUSLIM MAHA VIDYALAYA","ROTAWEWA TAMIL KANISHTA VIDYALAYA"
+    ];
+    document.getElementById('schoolTable').innerHTML = schools.map((n,i) =>
+      `<tr><td>${i+1}</td><td><strong>${n}</strong></td><td class="text-center">0</td><td class="text-center">0</td>
+       <td class="text-center"><div class="progress" style="min-width:70px"><div class="progress-bar bg-danger" style="width:0%">0%</div></div></td>
+       <td class="text-center">–</td></tr>`
+    ).join('');
+  </script>
+</body>
+</html>
